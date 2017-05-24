@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">GithubGetUser</string>
+    <string name="json_null_result">null</string>
+
+    <string name="login_format">Login: %1$s</string>
+    <string name="name_format">Name: %1$s</string>
+    <string name="company_format">Company: %1$s</string>
+    <string name="location_format">Location: %1$s</string>
+    <string name="no_data_result">no data</string>
+    <string name="login_request">login</string>
+    <string name="name_request">name</string>
+    <string name="location_request">location</string>
+    <string name="company_request">company</string>
+    <string name="avatar_url_request">avatar_url</string>
+    <string name="user_login_hint">Enter login</string>
+    <string name="button_user_info">Get user info!</string>
+    <string name="user_not_found">User was not found</string>
+</resources>
