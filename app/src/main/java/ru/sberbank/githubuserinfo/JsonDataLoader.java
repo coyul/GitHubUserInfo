@@ -1,6 +1,7 @@
 package ru.sberbank.githubuserinfo;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -17,11 +18,13 @@ public class JsonDataLoader {
 
     private static final String SINGLE_USER_GITHUB_API = "https://api.github.com/users/%s?client_id=%s&client_secret=%s";
     private static final String MY_SECRET_ID = "350c64030f15ed08c0ed";
-    private static final String MY_SECRET_KEY = "0a5071b2eef6c872f78af2874e4f75c85ea5f3e2";
+    private static final String MY_SECRET_KEY = "";
 
     private static final String TAG = "JsonDataLoader";
 
-    public static JSONObject getJsonObject(Context context, String userName) {
+
+    //get json object from input stream
+    public static JSONObject getJsonObject(String userName) {
         JSONObject result = null;
         HttpURLConnection connection = null;
 
@@ -52,6 +55,32 @@ public class JsonDataLoader {
         }
 
 
+        return result;
+    }
+
+    //parse json object and create new user with parsed data
+    public static User getUserFromJsonObject(Context context, JSONObject json) {
+        User user = new User();
+        try {
+            user.setLogin(getStringByRequest(context.getString(R.string.login_request), json, context));
+            user.setName(getStringByRequest(context.getString(R.string.name_request), json, context));
+            user.setLocation(getStringByRequest(context.getString(R.string.location_request), json, context));
+            user.setCompany(getStringByRequest(context.getString(R.string.company_request), json, context));
+            user.setAvatarUrl(getStringByRequest(context.getString(R.string.avatar_url_request), json, context));
+
+        } catch (JSONException e) {
+            Log.e(TAG, "JSONException", e);
+        }
+        return user;
+    }
+
+
+    private static String getStringByRequest(String request, JSONObject json, Context context) throws JSONException {
+
+        String result;
+        if (json.isNull(request)) {
+            result = context.getString(R.string.no_data_result);
+        } else result = json.getString(request);
         return result;
     }
 

@@ -21,7 +21,7 @@ public class UserInfoActivity extends AppCompatActivity {
     private TextView mNameView;
     private ImageView mAvatarView;
 
-    private static final String TAG = "UserInfoActivity";
+    private static final String TAG = "UserInfo Activity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,15 +51,27 @@ public class UserInfoActivity extends AppCompatActivity {
 
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        Log.e(TAG, "onStart");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.e(TAG, "onResume");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.e(TAG, "onPause");
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         Log.e(TAG, "onDestroy");
     }
 
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.e(TAG, "onStart");
-    }
 }

@@ -11,24 +11,24 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class AskUserNameActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText mUserNameText;
     private Button mButtonGetInfo;
     private String mCashedUserName;
 
     private static final int LOADER_ID = 1;
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "AskUserName Activity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_ask_user_name);
+        Log.e(TAG, "onCreate");
 
         mUserNameText = (EditText) findViewById(R.id.edit_user_name);
         mButtonGetInfo = (Button) findViewById(R.id.button_info);
         mButtonGetInfo.setOnClickListener(this);
-
     }
 
     @Override
@@ -38,38 +38,74 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (mCashedUserName == null) mCashedUserName = userName;
 
         if (mCashedUserName.equals(userName)) {
-            getSupportLoaderManager().initLoader(LOADER_ID, null, new MainActivity.UserCallBacks());
+            Log.e(TAG, "onClick initLoader");
+            getSupportLoaderManager().initLoader(LOADER_ID, null, new AskUserNameActivity.UserCallBacks());
         } else {
             mCashedUserName = userName;
-            getSupportLoaderManager().restartLoader(LOADER_ID, null, new MainActivity.UserCallBacks());
+            Log.e(TAG, "onClick restartLoader");
+            getSupportLoaderManager().restartLoader(LOADER_ID, null, new AskUserNameActivity.UserCallBacks());
+
         }
     }
+
 
     private class UserCallBacks implements LoaderManager.LoaderCallbacks<User> {
 
         @Override
         public Loader<User> onCreateLoader(int id, Bundle args) {
             Log.e(TAG, "onCreateLoader");
-            return new UserLoader(MainActivity.this, mCashedUserName);
+            return new UserLoader(AskUserNameActivity.this, mCashedUserName);
         }
 
         @Override
         public void onLoadFinished(Loader<User> loader, User data) {
-
+            Log.e(TAG, "onLoadFinished");
             if (data == null) {
-                Toast.makeText(MainActivity.this, R.string.user_not_found, Toast.LENGTH_LONG).show();
+                Toast.makeText(AskUserNameActivity.this, R.string.user_not_found, Toast.LENGTH_LONG).show();
             } else {
                 Intent intent = new Intent(getApplicationContext(), UserInfoActivity.class);
                 intent.putExtra("User", data);
                 startActivity(intent);
             }
-
-            Log.e(TAG, "onLoadFinished");
         }
 
         @Override
         public void onLoaderReset(Loader<User> loader) {
             Log.e(TAG, "onLoaderReset");
         }
+
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.e(TAG, "onStart");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.e(TAG, "onResume");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.e(TAG, "onPause");
+    }
+
+    @Override
+    protected void onStop() {
+        getSupportLoaderManager().destroyLoader(LOADER_ID);
+        super.onStop();
+        Log.e(TAG, "onStop");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.e(TAG, "onRestart");
+    }
+
+
 }
