@@ -1,4 +1,4 @@
-package ru.sberbank.githubuserinfo;
+package ru.sberbank.githubuserinfo.activity;
 
 import android.content.Intent;
 import android.support.v4.app.LoaderManager;
@@ -10,6 +10,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import ru.sberbank.githubuserinfo.parser.GithubUserJsonParser;
+import ru.sberbank.githubuserinfo.R;
+import ru.sberbank.githubuserinfo.User;
+import ru.sberbank.githubuserinfo.loader.UserLoader;
 
 public class AskUserNameActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -54,7 +59,7 @@ public class AskUserNameActivity extends AppCompatActivity implements View.OnCli
         @Override
         public Loader<User> onCreateLoader(int id, Bundle args) {
             Log.e(TAG, "onCreateLoader");
-            return new UserLoader(AskUserNameActivity.this, mCashedUserName);
+            return new UserLoader(AskUserNameActivity.this, mCashedUserName, new GithubUserJsonParser(AskUserNameActivity.this));
         }
 
         @Override

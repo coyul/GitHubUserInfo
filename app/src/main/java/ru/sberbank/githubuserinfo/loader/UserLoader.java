@@ -1,11 +1,13 @@
-package ru.sberbank.githubuserinfo;
+package ru.sberbank.githubuserinfo.loader;
 
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
 
-import org.json.JSONException;
 import org.json.JSONObject;
+
+import ru.sberbank.githubuserinfo.User;
+import ru.sberbank.githubuserinfo.parser.UserJsonParser;
 
 
 public class UserLoader extends AsyncTaskLoader<User> {
@@ -13,10 +15,12 @@ public class UserLoader extends AsyncTaskLoader<User> {
     private static final String TAG = "User Loader";
     private String mUserName;
     private User mCashedUser;
+    private UserJsonParser mDataJsonLoader;
 
-    public UserLoader(Context context, String userName) {
+    public UserLoader(Context context, String userName, UserJsonParser dataJsonLoader) {
         super(context);
         this.mUserName = userName;
+        this.mDataJsonLoader = dataJsonLoader;
     }
 
     @Override
@@ -39,13 +43,12 @@ public class UserLoader extends AsyncTaskLoader<User> {
     @Override
     public User loadInBackground() {
         Log.e(TAG, "loadInBackground");
-
         User result = null;
-        JSONObject jsonResult = JsonDataLoader.getJsonObject(mUserName);
+
+        JSONObject jsonResult = mDataJsonLoader.getJsonByUserName(mUserName);
         if (jsonResult != null) {
-            result = JsonDataLoader.getUserFromJsonObject(getContext(), jsonResult);
+            result = mDataJsonLoader.getUserFromJson(jsonResult);
         }
         return result;
-
     }
 }

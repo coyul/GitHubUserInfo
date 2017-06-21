@@ -88,4 +88,16 @@ public class User implements Serializable {
         result = 31 * result + (mAvatarUrl != null ? mAvatarUrl.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("User{");
+        sb.append("mLogin='").append(mLogin).append('\'');
+        sb.append(", mName='").append(mName).append('\'');
+        sb.append(", mCompany='").append(mCompany).append('\'');
+        sb.append(", mLocation='").append(mLocation).append('\'');
+        sb.append(", mAvatarUrl='").append(mAvatarUrl).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }
